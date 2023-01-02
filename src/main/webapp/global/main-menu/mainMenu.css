@@ -1,0 +1,39 @@
+.menu {
+  overflow: hidden;
+  border: 1px solid var(--menuBorderBackground);
+  background-color: var(--menuBackground);
+  display: flex;
+  justify-content: center;
+  /*padding-left: 465px;
+  padding-right: 465px;*/
+}
+
+.menu button {
+  background-color: inherit;
+  color: var(--menuTextColor);
+  float: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+.menu button:hover {
+  background-color: var(--menuHoverBackground);
+  color: var(--menuHoverTextColor);
+}
+
+.menu button.active {
+  background-color: var(--menuButtonActiveBackground);
+}
+
+.season {
+	background-color: white;
+	display: block;
+	float: left;
+	margin-left: 10px;
+	margin-top: -33px;
+	/*margin-top: -34px;*/
+}

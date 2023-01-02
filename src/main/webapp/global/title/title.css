@@ -1,0 +1,14 @@
+#title {
+	background-color: var(--htmlBackground);
+	width: 1200px;
+	height: 100px;
+	padding: 15, 0, 15, 0px;
+}
+
+#title p {
+	font-size: 50px;
+	color: #e6e6ff;
+	text-align:center;
+	padding-top: 20px;
+	margin: 0px;
+}
