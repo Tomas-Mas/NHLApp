@@ -1,7 +1,6 @@
 package com.global;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -29,16 +28,15 @@ public class MainMenuServlet extends HttpServlet {
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		
 		String activeSeason = "";
 		ArrayList<String> seasons = getSeasons();
 		
 		Cookie[] cookies = (request.getCookies());
-		for(Cookie c : cookies) {
-			if(c.getName().equals("season")) {
-				activeSeason = c.getValue();
+		if(cookies != null) {
+			for(Cookie c : cookies) {
+				if(c.getName().equals("season")) {
+					activeSeason = c.getValue();
+				}
 			}
 		}
 		
@@ -47,8 +45,9 @@ public class MainMenuServlet extends HttpServlet {
 			Cookie c = new Cookie("season", activeSeason);
 			c.setMaxAge(365 * 24 * 60 * 60);
 			c.setPath("/");
-			response.addCookie(c);
+			request.setAttribute("newCookies", new Cookie[] {c});
 		}
+		request.setAttribute("season", activeSeason);
 		
 		Tag menuDiv = new Tag("div", "class='menu' id='mainMenu'", new Tag[] {
 				new Tag("button", "class='menulinks'", "Home"), 		// onclick functions
@@ -64,11 +63,11 @@ public class MainMenuServlet extends HttpServlet {
 		}
 		Tag seasonDiv = new Tag("div", "class='season'", seasonSelector);
 		
-		Title title = new Title();
-		
-		title.getTitleDiv().print(out);
-		menuDiv.print(out);
-		seasonDiv.print(out);
+		request.setAttribute("titleTag", new Title().getTitleDiv());
+		request.setAttribute("menuTag", menuDiv);
+		request.setAttribute("seasonTag", seasonDiv);
+		/*menuDiv.print(out);
+		seasonDiv.print(out);*/
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
