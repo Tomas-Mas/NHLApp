@@ -26,7 +26,7 @@ public class MainPageServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		request.getRequestDispatcher("/MainMenuServlet").include(request, response);
-		String season = (String)request.getAttribute("season");
+		request.getRequestDispatcher("/MainPageResultsServlet").include(request, response);
 		
 		Tag html = new Tag("html");
 		html.addTag(buildHeader());
@@ -35,12 +35,13 @@ public class MainPageServlet extends HttpServlet {
 		body.addTag((Tag)request.getAttribute("menuTag"));
 		body.addTag((Tag)request.getAttribute("seasonTag"));
 		
+		Tag mainContent = new Tag("div", "id='mainContent'");
+		mainContent.addTag((Tag)request.getAttribute("results"));
 		
 		
-		
-		Tag testDiv = new Tag("div");
+		/*Tag testDiv = new Tag("div");
 		testDiv.addTag(new Tag("p", "", "this is main page and a lot of stuff is here kind of.."));
-		testDiv.addTag(new Tag("p", "", season));
+		testDiv.addTag(new Tag("p", "", season));*/
 		
 		
 		Cookie[] newCookies = (Cookie[])request.getAttribute("newCookies");
@@ -49,7 +50,8 @@ public class MainPageServlet extends HttpServlet {
 		}
 		
 		//printing all the tags
-		body.addTag(testDiv);
+		//body.addTag(testDiv);
+		body.addTag(mainContent);
 		html.addTag(body);
 		html.print(out);
 	}
@@ -65,7 +67,12 @@ public class MainPageServlet extends HttpServlet {
 		header.addTag(new Tag("link", "rel='stylesheet' href='global/root.css'"));
 		header.addTag(new Tag("link", "rel='stylesheet' href='global/main-menu/mainMenu.css'"));
 		header.addTag(new Tag("link", "rel='stylesheet' href='global/title/title.css'"));
+		header.addTag(new Tag("link", "rel='stylesheet' href='main-page/index.css'"));
 		//scripts
+		header.addTag(new Tag("script", "src='global/main-menu/menu.js'"));
+		header.addTag(new Tag("script", "src='main-page/index.js'"));
+		
+		//<script src="main-page/index.js"></script>
 		//<script src="root/menu/menu.js"></script>
 		
 		
