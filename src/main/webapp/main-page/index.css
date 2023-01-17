@@ -69,20 +69,34 @@
 	display: block;
 	margin-left: auto;
     margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
 	width: 175px;
 	height: auto;
 }
 
+#mainFinishedTable .date {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+	text-align: center;
+}
+
+#mainFinishedTable .date p {
+	margin: 0px;
+}
+
 #mainFinishedTable .score p {
 	text-align: center;
-	font-size: 40px;
+	font-size: 50px;
 }
 
 #mainFinishedTable .gamePageButtonDiv {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: -35px;
+	margin-top: 5px;
 	text-align: center;
 }
 

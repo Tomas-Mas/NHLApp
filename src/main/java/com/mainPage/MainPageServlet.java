@@ -28,6 +28,9 @@ public class MainPageServlet extends HttpServlet {
 		request.getRequestDispatcher("/MainMenuServlet").include(request, response);
 		request.getRequestDispatcher("/MainPageResultsServlet").include(request, response);
 		
+		request.setAttribute("statsVersion", "mainPage");
+		request.getRequestDispatcher("/StatisticsRegulationServlet").include(request, response);
+		
 		Tag html = new Tag("html");
 		html.addTag(buildHeader());
 		Tag body = new Tag("body");

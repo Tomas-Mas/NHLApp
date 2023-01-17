@@ -94,6 +94,7 @@ public class MainPageResultsServlet extends HttpServlet {
 						new Tag("div", "class='homeName'", new Tag("p", "class='teamName'", game.getHomeName()))
 				}),
 				new Tag("td", "class='mainTableCell'", new Tag[] {
+						new Tag ("div", "class='date'", new Tag("p", "", game.getGameDate())),
 						new Tag("div", "class='score'", new Tag("p", "class='score'", game.getHomeScore() + " : " + game.getAwayScore())),
 						new Tag("div", "class='gamePageButtonDiv'", 
 								new Tag("button", "id='" + game.getGameId() + "' class='gamePageButton'", "Game page"))
