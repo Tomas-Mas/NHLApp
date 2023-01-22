@@ -1,4 +1,4 @@
-select myTeams.team, t.name, divisionConference.conference as conference, divisionConference.division as division, 
+select myTeams.team, t.name, t.t_id as id, divisionConference.conference as conference, divisionConference.division as division, 
         gamesPlayed, goalsFor, goalsAgainst, points, regulationWins, regulationLoses, overtimeWins, overtimeLoses
 from (
     select season, gameType, team, teamId, count(g_id) as gamesPlayed, sum(goalsFor) as goalsFor, sum(goalsAgainst) as goalsAgainst, sum(points) as points,

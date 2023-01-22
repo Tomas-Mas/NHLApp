@@ -40,6 +40,8 @@ public class MainPageServlet extends HttpServlet {
 		
 		Tag mainContent = new Tag("div", "id='mainContent'");
 		mainContent.addTag((Tag)request.getAttribute("results"));
+		mainContent.addTag((Tag)request.getAttribute("regulationStats"));
+		
 		
 		
 		/*Tag testDiv = new Tag("div");

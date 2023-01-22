@@ -59,6 +59,10 @@ public class RegulationTeamStatistics {
 		return goalsAgainst;
 	}
 	
+	public int getGoalDifference() {
+		return goalsFor - goalsAgainst;
+	}
+	
 	public int getPoints() {
 		return points;
 	}

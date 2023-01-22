@@ -16,7 +16,18 @@ public class Tag {
 	
 	public Tag(String name) {
 		this.name = name;
-		this.attributes = "";
+	}
+	
+	public Tag(String name, Tag[] tags) {
+		this.name = name;
+		for(Tag t : tags) {
+			this.tags.add(t);
+		}
+	}
+	
+	public Tag(String name, Tag tag) {
+		this.name = name;
+		this.tags.add(tag);
 	}
 	
 	public Tag(String name, String attributes, Tag[] tags) {
@@ -54,7 +65,7 @@ public class Tag {
 		}
 		
 		out.print("<" + name);
-		if(!attributes.isEmpty()) {
+		if(attributes != null && !attributes.isEmpty()) {
 			out.print(" " + attributes);
 		}
 		out.println(">");

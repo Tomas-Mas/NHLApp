@@ -6,19 +6,24 @@ import java.sql.SQLException;
 public class RegulationTeamData {
 
 	private String name;
+	private int id;
 	private String conference;
 	private String division;
 	private RegulationTeamStatistics home;
 	private RegulationTeamStatistics away;
 	
 	public RegulationTeamData() {
-		this.name = "";
 	}
 	
-	public void loadData(ResultSet rs) throws SQLException {
+	public void loadTeamData(ResultSet rs) throws SQLException {
 		this.name = rs.getString("name");
+		this.id = rs.getInt("id");
 		this.conference = rs.getString("conference");
 		this.division = rs.getString("division");
+		loadStats(rs);
+	}
+	
+	public void loadStats(ResultSet rs) throws SQLException {
 		if(rs.getString("team").equals("home")) {
 			home = new RegulationTeamStatistics(rs);
 		} else if(rs.getString("team").equals("away")) {
@@ -28,6 +33,10 @@ public class RegulationTeamData {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 	public String getConference() {

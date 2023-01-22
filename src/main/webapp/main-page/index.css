@@ -1,13 +1,67 @@
+#mainContent {
+	display: flex;
+}
+
+#mainFinishedGames{ 
+	flex: 2;
+	margin: 10px;
+}
+
+#regulationStats {
+	flex: 1;
+	margin: 10px;
+}
+
+#regulationStats table{
+	border-collapse: collapse;
+	width: 100%;
+	margin-top: 10px;
+	background-color: var(--contentMainTableBackground);
+	font-size: 11px;
+}
+
+#regulationStats th {
+	background-color: var(--htmlBackground);
+	font-size: 13px;
+	margin-bottom: 5px;
+}
+
+#regulationStats tr {
+	border-bottom: 1px solid var(--contentMainTableRowLine);
+}
+
+#regulationStats td {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+#regulationStats table .numeric {
+	text-align: center;
+}
+
+#regulationStats table tr {
+	color: var(--contentMainTableRowLine);
+}
+
+#regulationStats table tr:first-child {
+	width: 400px;
+}
+
+#regulationStats table .teamPic {
+	width: 15px;
+	background-color: lightblue;
+}
+
+
 #mainFinishedTable {
 	background-color: var(--contentMainTableBackground);
 	color: var(--contentMainTableTextColor);
-	width: 60%;
+	width: 100%;
 	table-layout: fixed;
-	margin-left: 25px;
-	margin-right: 25px;
 	padding-bottom: 5px;
 	border-spacing: 0px;
-	margin-top: 20px;
+	margin-right: 20px;
+	margin-top: 10px;
 }
 
 #mainFinishedTable tr{
@@ -209,5 +263,4 @@
 .matchData .gameDetailPlayerName:hover {
 	color: var(--contentMainTableRowHover);
 }
-
 
