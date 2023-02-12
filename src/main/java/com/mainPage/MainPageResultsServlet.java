@@ -31,10 +31,10 @@ public class MainPageResultsServlet extends HttpServlet {
 		contextPath = request.getContextPath();
 		String season = (String)request.getAttribute("season");
 		ArrayList<GameData> games = getGames(season);
-		Tag table = buildTable(games);
-		request.setAttribute("results", new Tag("div", "id='mainFinishedGames'", table));
-		
-		
+		Tag regulationTable = buildTableRegulation(games);
+		Tag playoffTable = buildTablePlayoff(games);
+		request.setAttribute("regulationResults", new Tag("div", "class='mainFinishedGames'", regulationTable));
+		request.setAttribute("playoffResults", new Tag("div", "class='mainFinishedGames'", playoffTable));
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,6 +50,7 @@ public class MainPageResultsServlet extends HttpServlet {
 		try {
 			pst = conn.prepareStatement(db.readSql("mainPageResults"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			pst.setInt(1, Integer.parseInt(season.replace("/", "")));
+			pst.setInt(2, Integer.parseInt(season.replace("/", "")));
 			rs = pst.executeQuery();
 			
 			GameData game = new GameData();
@@ -73,22 +74,35 @@ public class MainPageResultsServlet extends HttpServlet {
 		return games;
 	}
 	
-	private Tag buildTable(ArrayList<GameData> games) {
-		Tag table = new Tag("table", "id='mainFinishedTable'");
+	private Tag buildTableRegulation(ArrayList<GameData> games) {
+		Tag table = new Tag("table", "id='mainFinishedTableRegulation' class ='mainFinishedTable'");
 		int rowId = 0;
-		for(GameData game : games) {
+		for(GameData game : filterGames(games, GameType.regulation)) {
 			rowId++;
-			table.addTag(builtTableHeader(rowId, game));
+			table.addTag(buildTableHeader(rowId, game));
 			table.addTag(buildDetailRow(rowId, game));
 		}
-
-		
-		
 		return table;
 	}
 	
-	private Tag builtTableHeader(int rowId, GameData game) {
-		Tag tr = new Tag("tr", "id='headerRow" + rowId + "' class='clickableTr'", new Tag[] {
+	private Tag buildTablePlayoff(ArrayList<GameData> games) {
+		Tag table = new Tag("table", "id='mainFinishedTablePlayoff' class='mainFinishedTable'");
+		int rowId = 0;
+		ArrayList<GameData> playoffGames = filterGames(games, GameType.playoff);
+		//if(playoffGames.size() > 0) {
+			for(GameData game : playoffGames) {
+				rowId++;
+				table.addTag(buildTableHeader(rowId, game));
+				table.addTag(buildDetailRow(rowId, game));
+			}
+		//} else {
+		//	table = null;
+		//}
+		return table;
+	}
+	
+	private Tag buildTableHeader(int rowId, GameData game) {
+		/*Tag tr = new Tag("tr", "id='headerRow" + rowId + "' class='clickableTr'", new Tag[] {
 				new Tag("td", "class='mainTableCell'", new Tag[] {
 						new Tag("div", "class='homePic'"),
 						new Tag("div", "class='homeName'", new Tag("p", "class='teamName'", game.getHomeName()))
@@ -104,8 +118,45 @@ public class MainPageResultsServlet extends HttpServlet {
 						new Tag("div", "class='awayName'", new Tag("p", "class='teamName'", game.getAwayName()))
 				})
 				
+		});*/
+		
+		Tag tr = new Tag("tr", "id='headerRow" + rowId + "' class='clickableTr'");
+		Tag td = new Tag("td");
+		
+		Tag header = new Tag("table", "class='resultsHeader'");
+		Tag headerHomeRow = new Tag("tr", new Tag[] {
+				new Tag("td", "rowspan='2' class='resultsHeaderDate'", game.getGameDate()),
+				new Tag("td", "class='resultsPics'", new Tag("div", "class='teamPic'")),
+				new Tag("td", "class='resultsTeamName'", game.getHomeName()),
+				new Tag("td", "class='resultsScore'", String.valueOf(game.getHomeScore())),
+				new Tag("td", "rowspan='2' class='resultsDetail'", game.getResultDetail())
 		});
+		headerHomeRow.addTag(buildPeriodsCells("home", game));
+		headerHomeRow.addTag(new Tag("td", "rowspan='2' class='resultsButton'", new Tag("button", "id='" + game.getGameId() + "' class='gamePageButton'", "Game page"))); 
+		//headerHomeRow.addTag(new Tag("td", "", "a"));
+		
+		Tag headerAwayRow = new Tag("tr", new Tag[] {
+				new Tag("td", "class='resultsPics'", new Tag("div", "class='teamPic'")),
+				new Tag("td", "class='resultsTeamName'", game.getAwayName()),
+				new Tag("td", "class='resultsScore'", String.valueOf(game.getAwayScore()))
+		});
+		headerAwayRow.addTag(buildPeriodsCells("away", game));
+		//headerAwayRow.addTag(new Tag("td", "", "a"));
+		
+		header.addTag(headerHomeRow);
+		header.addTag(headerAwayRow);
+		td.addTag(header);
+		tr.addTag(td);
 		return tr;
+	}
+	
+	private Tag[] buildPeriodsCells(String team, GameData game) {
+		Tag[] periodTags = new Tag[game.getPeriods().size()];
+		for(int i = 0; i < game.getPeriods().size(); i++) {
+			periodTags[i] = new Tag("td", "class='resultsPeriodScore numeric'", String.valueOf(game.getPeriods().get(i).getScore(team)));
+		}
+		
+		return periodTags;
 	}
 	
 	public Tag buildDetailRow(int rowId, GameData game) {
@@ -173,13 +224,13 @@ public class MainPageResultsServlet extends HttpServlet {
 		return tr;
 	}
 	
-	public Tag buildPlayerLink(EventPlayer player) {
+	private Tag buildPlayerLink(EventPlayer player) {
 		//return new HtmlTag("a", "href='player.jsp?id=" + player.getId() + "'", player.getFullName());
 		//return new HtmlTag("a", "id='scorerName" + player.getId() + "' class='gameDetailPlayerName'", player.getFullName());
 		return new Tag("a", "id=" + player.getId() + " class='gameDetailPlayerName'", player.getFullName());
 	}
 	
-	public Tag getAssistsDiv(ArrayList<EventPlayer> secondaryActors) {
+	private Tag getAssistsDiv(ArrayList<EventPlayer> secondaryActors) {
 		int assists = 0;
 		String assistsText = "";
 		for(EventPlayer player : secondaryActors) {
@@ -193,7 +244,7 @@ public class MainPageResultsServlet extends HttpServlet {
 		return new Tag("div", "class='periodEventAssist'", assistsText);
 	}
 	
-	public Tag getPenaltyIconDiv(String severity, int minutes, String secondaryType) {
+	private Tag getPenaltyIconDiv(String severity, int minutes, String secondaryType) {
 		Tag penaltyIconDiv = new Tag("div", "class='periodEventIcon'");
 		if(minutes == 2) {
 			penaltyIconDiv.addTag(new Tag("img", "src='" + contextPath + "/sources/images/game-detail-icons/penalty2.png' title='" + severity + " - " + minutes + " minutes'"));
@@ -210,6 +261,15 @@ public class MainPageResultsServlet extends HttpServlet {
 					+ minutes + " - " + severity + " - " + secondaryType + "'"));
 		}
 		return penaltyIconDiv;
+	}
+	
+	private ArrayList<GameData> filterGames(ArrayList<GameData> games, GameType gameType) {
+		ArrayList<GameData> filteredGames = new ArrayList<GameData>();
+		for(GameData game : games) {
+			if(game.getGameType() == gameType)
+				filteredGames.add(game);
+		}
+		return filteredGames;
 	}
 	
 }

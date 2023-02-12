@@ -43,7 +43,7 @@ public class RegulationTeamStatistics {
 		this.points = home.getPoints() + away.getPoints();
 		this.regulationWins = home.getRegulationWins() + away.getRegulationWins();
 		this.regulationLoses = home.getRegulationLoses() + away.getRegulationLoses();
-		this.overtimeWins = home.getOvertimeWins() + away.getRegulationWins();
+		this.overtimeWins = home.getOvertimeWins() + away.getOvertimeWins();
 		this.overtimeLoses = home.getOvertimeLoses() + away.getOvertimeLoses();
 	}
 	
@@ -81,5 +81,9 @@ public class RegulationTeamStatistics {
 	
 	public int getOvertimeLoses() {
 		return overtimeLoses;
+	}
+	
+	public int get2PointWins() {
+		return regulationWins + overtimeWins;
 	}
 }

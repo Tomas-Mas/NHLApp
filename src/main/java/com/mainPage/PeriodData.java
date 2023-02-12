@@ -23,4 +23,12 @@ public class PeriodData {
 	public int getAwayScore() {
 		return this.awayScore;
 	}
+	public int getScore(String team) {
+		if(team.equals("home"))
+			return this.homeScore;
+		else if(team.equals("away"))
+			return this.awayScore;
+		else
+			return 100;
+	}
 }

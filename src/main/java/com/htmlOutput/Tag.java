@@ -55,8 +55,23 @@ public class Tag {
 		this.text = text;
 	}
 	
+	public Tag(String name, String attributes, String text, Tag[] tags) {
+		this.name = name;
+		this.attributes = attributes;
+		this.text = text;
+		for(Tag t : tags) {
+			this.tags.add(t);
+		}
+	}
+	
 	public void addTag(Tag tag) {
 		this.tags.add(tag);
+	}
+	
+	public void addTag(Tag[] tags) {
+		for(Tag tag : tags) {
+			this.tags.add(tag);
+		}
 	}
 	
 	public void print(PrintWriter out) {

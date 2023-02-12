@@ -48,6 +48,16 @@ public class StatisticsRegulationData {
 		return sortByPoints(teamsByConference);
 	}
 	
+	public ArrayList<RegulationTeamData> getTeamsByDivisions(String division) {
+		ArrayList<RegulationTeamData> teamsByDivision = new ArrayList<RegulationTeamData>();
+		for(RegulationTeamData team : teams) {
+			if(team.getDivision().equals(division)) {
+				teamsByDivision.add(team);
+			}
+		}
+		return sortByPoints(teamsByDivision);
+	}
+	
 	public HashMap<String, ArrayList<String>> getConferencesDivisions() {
 		return confDivs;
 	}

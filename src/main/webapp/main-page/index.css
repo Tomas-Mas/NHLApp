@@ -1,8 +1,8 @@
-#mainContent {
+#regulationContainer {
 	display: flex;
 }
 
-#mainFinishedGames{ 
+.mainFinishedGames{ 
 	flex: 2;
 	margin: 10px;
 }
@@ -17,25 +17,43 @@
 	width: 100%;
 	margin-top: 10px;
 	background-color: var(--contentMainTableBackground);
-	font-size: 11px;
+	/*font-size: 11px;*/
 }
 
 #regulationStats th {
 	background-color: var(--htmlBackground);
-	font-size: 13px;
+	/*font-size: 13px;*/
 	margin-bottom: 5px;
+}
+
+#regulationStats .conferenceName{
+	padding-left: 10px;
+	text-align: left;
+}
+
+#regulationStats tr.header:not(:first-child) th {
+	padding-top: 10px;
 }
 
 #regulationStats tr {
 	border-bottom: 1px solid var(--contentMainTableRowLine);
 }
 
-#regulationStats td {
-	padding-top: 8px;
-	padding-bottom: 8px;
+#regulationStats tr:not(.header):hover {
+	background-color: var(--contentMainTableRowHover);
 }
 
-#regulationStats table .numeric {
+#regulationStats td {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+#regulationStats .teamName:hover{
+	cursor: pointer;
+	text-shadow: 2px 2px 1px black;
+}
+
+.numeric {
 	text-align: center;
 }
 
@@ -49,144 +67,119 @@
 
 #regulationStats table .teamPic {
 	width: 15px;
+	height: 15px;
 	background-color: lightblue;
 }
 
 
-#mainFinishedTable {
+.mainFinishedTable {
 	background-color: var(--contentMainTableBackground);
 	color: var(--contentMainTableTextColor);
 	width: 100%;
 	table-layout: fixed;
+	border-collapse:collapse;
 	padding-bottom: 5px;
 	border-spacing: 0px;
 	margin-right: 20px;
 	margin-top: 10px;
 }
 
-#mainFinishedTable tr{
-	border-bottom: 1px solid var(--contentMainTableRowLine);
-	display: block;
-	height: 100%;
+.mainFinishedTable tr{
+	/*border-bottom: 1px solid var(--contentMainTableRowLine);*/
+	/*display: block;*/
+	/*height: 100%;*/
+	color: var(--contentMainTableTextColor);
 	margin-left: 0px;
 	margin-right: 0px;
 	transition: 0.5s;
 }
 
-#mainFinishedTable .clickableTr {
+.mainFinishedTable .clickableTr {
+	border-collapse: collapse;
+	width: 100%;
+	border-bottom: 1px solid var(--contentMainTableRowLine);
+	padding-bottom: 5px;
 	margin-top: 5px;
 	cursor: pointer;
 }
 
-#mainFinishedTable .clickableTr:hover {
+.mainFinishedTable .clickableTr:hover {
 	background-color: var(--contentMainTableRowHover);
 }
 
-#mainFinishedTable td {
-	padding-left: 0px;
-	padding-right: 0px;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	height: auto;
+.resultsHeader{
+	/*table-layout: fixed;*/
+	width: 100%;
+	border-spacing: 1px;
 }
 
-#mainFinishedTable td.mainTableCell{
-	display: inline-block;
-	width: 32%;
-}
-
-#mainFinishedTable .homePic {
-	display: block;
-    margin-left: auto;
-    margin-right: auto;
-	width: 60px;
-	height: 50px;
-	background-color: lightblue;
-}
-
-#mainFinishedTable .awayPic {
-	display: block;
-    margin-left: auto;
-    margin-right: auto;
-	width: 60px;
-	height: 50px;
-	background-color: lightblue;
-}
-
-#mainFinishedTable .teamName {
-	text-align: center;
-	font-size: 20px;
-	margin-top: 5px;
-}
-
-#mainFinishedTable .score {
-	display: block;
-	margin-left: auto;
-    margin-right: auto;
-    margin-top: 5px;
-    margin-bottom: 5px;
-	width: 175px;
-	height: auto;
-}
-
-#mainFinishedTable .date {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 5px;
+.mainFinishedTable .resultsHeaderDate {
+	padding-right: 10px;
+	width: 18%;
 	text-align: center;
 }
 
-#mainFinishedTable .date p {
-	margin: 0px;
+.mainFinishedTable .resultsPics {
+	width: 20px;
 }
 
-#mainFinishedTable .score p {
-	text-align: center;
-	font-size: 50px;
+.mainFinishedTable .resultsTeamName {
+	width: 180px;
 }
 
-#mainFinishedTable .gamePageButtonDiv {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 5px;
-	text-align: center;
+.mainFinishedTable .resultsScore {
+	width: 25px;
+	font-weight: bold;
+	text-align: right;
 }
 
-#mainFinishedTable .gamePageButton {
+.mainFinishedTable .resultsDetail {
+	width: 25px;
+	text-align: left;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.mainFinishedTable .resultsPeriodScore {
+	width: 25px;
+}
+
+.mainFinishedTable .gamePageButton {
   background-color: var(--contentMainTableRowHover);
-  border-style: outset;
   border-color: var(--contentMainTableBackground);
   color: var(--contentMainTableTextColor);
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+  display: block;
+  margin-left: auto;
+  margin-right: 10px;
+  padding: 5px;
   cursor: pointer;
 }
 
-#mainFinishedTable .gamePageButton:hover {
+.mainFinishedTable .gamePageButton:hover {
   background-color: var(--contentMainTableBackground);
   font-weight: bold;
 }
 
-#mainFinishedTable .matchData{
+.mainFinishedTable .teamPic{
+	background-color: lightblue;
+	width: 15px;
+	height: 15px;
+}
+
+.mainFinishedTable .matchData{
 	background-color: var(--contentMainTableMatchData);
 	border-style: inset;
 	border-color: var(--contentMainTableRowHover);
 	width: 2000px;
 }
 
-#mainFinishedTable .periodHeader {
+.mainFinishedTable .periodHeader {
 	background-color: var(--htmlBackground); 
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
 }
-#mainFinishedTable .periodHeader div {
+.mainFinishedTable .periodHeader div {
 	display: block;
 	width: auto;
 	margin-left: 25px;
@@ -195,7 +188,7 @@
 	margin-bottom: 5px;
 }
 
-#mainFinishedTable .eventLineHome {
+.mainFinishedTable .eventLineHome {
 	display: block;
 	float: left;
 	width: 100%;
@@ -205,7 +198,7 @@
 	padding-right: 5px;
 }
 
-#mainFinishedTable .eventLineAway {
+.mainFinishedTable .eventLineAway {
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -228,32 +221,32 @@
 	margin-right: 0px;
 }
 
-#mainFinishedTable .periodEventTime, .periodEventIcon, .periodEventMainPlayer, .periodEventStrength, .periodEventPenaltyType {
+.mainFinishedTable .periodEventTime, .periodEventIcon, .periodEventMainPlayer, .periodEventStrength, .periodEventPenaltyType {
 	display: inline-block;
 	height: 100%;
 	vertical-align: middle;
 }
 
-#mainFinishedTable .eventLineHome img, #mainFinishedTable .eventLineAway img {
+.mainFinishedTable .eventLineHome img, .mainFinishedTable .eventLineAway img {
 	width: auto;
 	height: auto;
 	padding-left: 3px;
 	padding-right: 3px;
 }
 
-#mainFinishedTable .periodEventAssist {
+.mainFinishedTable .periodEventAssist {
 	display: block;
 	font-style: oblique;
 	font-size: 13px;
 }
 
-#mainFinishedTable .periodEventPenaltyType, .periodEventStrength, .periodEventPenaltyType {
+.mainFinishedTable .periodEventPenaltyType, .periodEventStrength, .periodEventPenaltyType {
 	font-style: oblique;
 	font-size: 14px;
 	padding-right: 5px;
 }
 
-#mainFinishedTable .periodEventMainPlayer {
+.mainFinishedTable .periodEventMainPlayer {
 	font-weight: bold;
 }
 

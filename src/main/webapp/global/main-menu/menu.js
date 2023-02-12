@@ -4,5 +4,8 @@ function menuClicked(event) {
 		if(button.includes('Home')) {
 			window.location = 'index.jsp';
 		}
+		else if(button.includes('Statistics')) {
+			window.location = 'statistics.jsp';
+		}
 	}
 }

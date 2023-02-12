@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.htmlOutput.Tag;
 
-
-@WebServlet("/MainPageServlet")
 public class MainPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -39,9 +36,16 @@ public class MainPageServlet extends HttpServlet {
 		body.addTag((Tag)request.getAttribute("seasonTag"));
 		
 		Tag mainContent = new Tag("div", "id='mainContent'");
-		mainContent.addTag((Tag)request.getAttribute("results"));
-		mainContent.addTag((Tag)request.getAttribute("regulationStats"));
+		Tag regulation = new Tag("div", "id='regulationContainer'");
+		regulation.addTag((Tag)request.getAttribute("regulationResults"));
+		regulation.addTag((Tag)request.getAttribute("regulationStats"));
 		
+		//TODO playoff stuff
+		Tag playoff = new Tag("div", "id='playoffContainer'");
+		//playoff.addTag((Tag)request.getAttribute("playoffResults"));
+		
+		mainContent.addTag(regulation);
+		mainContent.addTag(playoff);
 		
 		
 		/*Tag testDiv = new Tag("div");

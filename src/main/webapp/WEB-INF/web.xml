@@ -12,9 +12,18 @@
 		<servlet-name>MainPage</servlet-name>
 		<servlet-class>com.mainPage.MainPageServlet</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>MainPage</servlet-name>
 		<url-pattern>/index.jsp</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Statistics</servlet-name>
+		<servlet-class>com.statistics.StatisticsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Statistics</servlet-name>
+		<url-pattern>/statistics.jsp</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

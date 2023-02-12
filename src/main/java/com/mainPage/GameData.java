@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GameData {
 	private int gameId;
-	private String gameType;
+	private GameType gameType;
 	private int season;
 	private String gameDate;
 	private String homeName;
@@ -25,7 +25,7 @@ public class GameData {
 	public GameData(int gameId, String gameType, int season, String gameDate, String homeName, int homeScore, 
 			String awayName, int awayScore, String venueName, String statusName) {
 		this.gameId = gameId;
-		this.gameType = gameType;
+		this.gameType = setGameType(gameType);
 		this.season = season;
 		this.gameDate = gameDate;
 		this.homeName = homeName;
@@ -38,7 +38,7 @@ public class GameData {
 	
 	public void setDataFromResultSet(ResultSet rs) throws SQLException {
 		this.gameId = rs.getInt("g_id");
-		this.gameType = rs.getString("gameType");
+		this.gameType = setGameType(rs.getString("gameType"));
 		this.season = rs.getInt("season");
 		this.gameDate = rs.getString("gameDate");
 		this.homeName = rs.getString("homeTeamName");
@@ -73,10 +73,23 @@ public class GameData {
 		}
 	}
 	
+	private GameType setGameType(String gameType) {
+		switch(gameType) {
+		case "PR":
+			return GameType.preparation;
+		case "R":
+			return GameType.regulation;
+		case "P":
+			return GameType.playoff;
+		default:
+			return GameType.undefined;
+		}
+	}
+	
 	public void setGameId(int gameId) {
 		this.gameId = gameId;
 	}
-	public void setGameType(String gameType) {
+	public void setGameType(GameType gameType) {
 		this.gameType = gameType;
 	}
 	public void setSeason(int season) {
@@ -107,7 +120,7 @@ public class GameData {
 	public int getGameId() {
 		return this.gameId;
 	}
-	public String getGameType() {
+	public GameType getGameType() {
 		return this.gameType;
 	}
 	public int getSeason() {
@@ -149,6 +162,32 @@ public class GameData {
 			}
 		}
 		return score;
+	}
+	
+	public int getScoreForPeriod(String team, int periodNumber) {
+		for(PeriodData period: this.periods) {
+			if(period.getNumber() == periodNumber) {
+				return period.getScore(team);
+			}
+		}
+		return 0;
+	}
+	
+	public String getResultDetail() {
+		if(periods.size() <= 3) {
+			return "";
+		} else if(periods.size() == 4) {
+			return "OT";
+		} else if(periods.size() == 5) {
+			if(gameType == GameType.playoff)
+				return "OT";
+			else
+				return "SO";
+		} else if(periods.size() > 5) {
+			return "OT";
+		} else {
+			return "N/A";
+		}
 	}
 	
 }
