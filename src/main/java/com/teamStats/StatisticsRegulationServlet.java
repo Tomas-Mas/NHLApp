@@ -95,7 +95,7 @@ public class StatisticsRegulationServlet extends HttpServlet {
 		conferenceTable.addTag(buildMainPageStatsHeader(conference));
 		
 		int rank = 1;
-		for(RegulationTeamData team : stats.getTeamsByConference(conference)) {
+		for(TeamData team : stats.getTeamsByConference(conference)) {
 			conferenceTable.addTag(buildMainPageStatsRow(rank, team, team.getOverallStats()));
 			rank++;
 		}
@@ -129,7 +129,7 @@ public class StatisticsRegulationServlet extends HttpServlet {
 		return header;
 	}
 	
-	private Tag buildMainPageStatsRow(int rank, RegulationTeamData team, RegulationTeamStatistics stats) {
+	private Tag buildMainPageStatsRow(int rank, TeamData team, TeamStatistics stats) {
 		Tag tr = new Tag("tr", new Tag[] {
 				new Tag("td", "class='numeric'", String.valueOf(rank)),
 				new Tag("td", "", new Tag("div", "class='teamPic'")),
@@ -137,8 +137,8 @@ public class StatisticsRegulationServlet extends HttpServlet {
 				new Tag("td", "id='" + team.getId() + "' class='teamName'", team.getName()),
 				new Tag("td", "class='numeric'", String.valueOf(stats.getGamesPlayed())),
 				new Tag("td", "class='numeric'", String.valueOf(stats.getRegulationWins())),
-				new Tag("td", "class='numeric'", String.valueOf(stats.getOvertimeWins())),
-				new Tag("td", "class='numeric'", String.valueOf(stats.getOvertimeLoses())),
+				new Tag("td", "class='numeric'", String.valueOf(stats.getOvertimeShootoutWins())),
+				new Tag("td", "class='numeric'", String.valueOf(stats.getOvertimeShootoutLoses())),
 				new Tag("td", "class='numeric'", String.valueOf(stats.getRegulationLoses())),
 				//new Tag("td", "class='numeric'", String.valueOf(stats.getGoalsFor())),
 				//new Tag("td", "class='numeric'", String.valueOf(stats.getGoalsAgainst())),
@@ -152,10 +152,10 @@ public class StatisticsRegulationServlet extends HttpServlet {
 	private Tag buildRegulationStatisticsPage(StatisticsRegulationData stats) {
 		Tag regulationContainer = new Tag("div", "id='regulationContainer'");
 		HashMap<String, ArrayList<String>> confDivMap = stats.getConferencesDivisions();
-		Tag regulationTable = new Tag("table");
+		Tag regulationTable = new Tag("table", "class='regulationContainerTable'");
 		for(String conference : confDivMap.keySet()) {
 			regulationTable.addTag(buildStatPageConferenceRow(conference, confDivMap, stats));
-			regulationTable.addTag(new Tag("tr", buildStatPageDivisionCell(confDivMap.get(conference).get(1), stats)));
+			regulationTable.addTag(new Tag("tr", "class='divisionTr'", buildStatPageDivisionCell(confDivMap.get(conference).get(1), stats)));
 		}
 		
 		regulationContainer.addTag(regulationTable);
@@ -183,14 +183,14 @@ public class StatisticsRegulationServlet extends HttpServlet {
 	}
 	
 	private Tag buildStatPageConferenceDataTable(String conference, StatisticsRegulationData stats) {
-		Tag table = new Tag("table");
+		Tag table = new Tag("table", "class='conferenceTable'");
 		//Tag trTitle = new Tag("tr", new Tag("td", "", conference));
 		
 		//table.addTag(trTitle);
 		table.addTag(buildFullStatHeader(conference));
 		
 		int rank = 1;
-		for(RegulationTeamData team : stats.getTeamsByConference(conference)) {
+		for(TeamData team : stats.getTeamsByConference(conference)) {
 			table.addTag(buildFullStatData(rank, team));
 			rank++;
 		}
@@ -198,12 +198,12 @@ public class StatisticsRegulationServlet extends HttpServlet {
 	}
 	
 	private Tag buildStatPageDivisionDataTable(String division, StatisticsRegulationData stats) {
-		Tag table = new Tag("table");
+		Tag table = new Tag("table", "class='divisionTable'");
 		table.addTag(buildFullStatHeader(division));
 		
 		int rank = 1;
-		for(RegulationTeamData team : stats.getTeamsByDivisions(division)) {
-			table.addTag(buildFullStatData(rank, team));
+		for(TeamData team : stats.getTeamsByDivisions(division)) {
+			table.addTag(buildFullStatAbreviatedNameData(rank, team));
 			rank++;
 		}
 		return table;
@@ -224,15 +224,32 @@ public class StatisticsRegulationServlet extends HttpServlet {
 		});
 	}
 	
-	private Tag buildFullStatData(int rank, RegulationTeamData team) {
+	private Tag buildFullStatData(int rank, TeamData team) {
 		return new Tag("tr", new Tag[] {
 				new Tag("td", "class='numeric'", String.valueOf(rank)),
 				new Tag("td", "", new Tag("div", "class='teamPic'")),
 				new Tag("td", "id='" + team.getId() + "' class='teamName'", team.getName()),
 				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getGamesPlayed())),
 				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getRegulationWins())),
-				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getOvertimeWins())),
-				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getOvertimeLoses())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getOvertimeShootoutWins())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getOvertimeShootoutLoses())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getRegulationLoses())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getGoalsFor())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getGoalsAgainst())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getGoalDifference())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getPoints()))
+		});
+	}
+	
+	private Tag buildFullStatAbreviatedNameData(int rank, TeamData team) {
+		return new Tag("tr", new Tag[] {
+				new Tag("td", "class='numeric rank'", String.valueOf(rank)),
+				new Tag("td", "", new Tag("div", "class='teamPic'")),
+				new Tag("td", "id='" + team.getId() + "' class='teamName' title='"+ team.getName() +"'", team.getAbbreviatedName()),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getGamesPlayed())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getRegulationWins())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getOvertimeShootoutWins())),
+				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getOvertimeShootoutLoses())),
 				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getRegulationLoses())),
 				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getGoalsFor())),
 				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getGoalsAgainst())),

@@ -1,0 +1,81 @@
+#mainContent {
+	display: flex;
+}
+
+#regulationContainer {
+	flex: 2;
+}
+
+#playoffContainer {
+	flex: 1;
+}
+
+.regulationContainerTable{
+	width: 100%;
+}
+
+.conferenceTable, .divisionTable {
+	width: 95%;
+}
+
+.conferenceTable .teamName{
+	width: 180px;
+}
+
+.divisionTable .teamName {
+	width: 70px;
+}
+
+.divisionTable .rank {
+	width: 21px;
+}
+
+.divisionTable {
+	margin-top: 10px;
+}
+
+#mainContent table {
+	color: var(--contentMainTableTextColor);
+	border-collapse: collapse;
+	background-color: var(--contentMainTableBackground);
+	font-size: 14px;
+}
+
+#mainContent .regulationContainerTable {
+	background-color: var(--htmlBackground);
+}
+
+#mainContent table th {
+	background-color: var(--htmlBackground);
+	margin-bottom: 5px;
+}
+
+#mainContent table tr.header:not(:first-child) th {
+	padding-top: 10px;
+}
+
+.conferenceTable tr, .divisionTable tr {
+	border-bottom: 1px solid var(--contentMainTableRowLine);
+}
+
+.conferenceTable tr:not(.header):hover {
+	background-color: var(--contentMainTableRowHover);
+}
+
+.divisionTable tr:not(.header):hover {
+	background-color: var(--contentMainTableRowHover);
+}
+
+.divisionTable td, .conferenceTable td {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.teamName:hover {
+	cursor: pointer;
+	text-shadow: 2px 2px 1px black;
+}
+
+.numeric {
+	text-align: center;
+}

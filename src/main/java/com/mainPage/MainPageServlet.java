@@ -37,15 +37,10 @@ public class MainPageServlet extends HttpServlet {
 		
 		Tag mainContent = new Tag("div", "id='mainContent'");
 		Tag regulation = new Tag("div", "id='regulationContainer'");
-		regulation.addTag((Tag)request.getAttribute("regulationResults"));
+		regulation.addTag((Tag)request.getAttribute("results"));
 		regulation.addTag((Tag)request.getAttribute("regulationStats"));
 		
-		//TODO playoff stuff
-		Tag playoff = new Tag("div", "id='playoffContainer'");
-		//playoff.addTag((Tag)request.getAttribute("playoffResults"));
-		
 		mainContent.addTag(regulation);
-		mainContent.addTag(playoff);
 		
 		
 		/*Tag testDiv = new Tag("div");
@@ -80,10 +75,6 @@ public class MainPageServlet extends HttpServlet {
 		//scripts
 		header.addTag(new Tag("script", "src='global/main-menu/menu.js'"));
 		header.addTag(new Tag("script", "src='main-page/index.js'"));
-		
-		//<script src="main-page/index.js"></script>
-		//<script src="root/menu/menu.js"></script>
-		
 		
 		return header;
 	}

@@ -31,10 +31,8 @@ public class MainPageResultsServlet extends HttpServlet {
 		contextPath = request.getContextPath();
 		String season = (String)request.getAttribute("season");
 		ArrayList<GameData> games = getGames(season);
-		Tag regulationTable = buildTableRegulation(games);
-		Tag playoffTable = buildTablePlayoff(games);
-		request.setAttribute("regulationResults", new Tag("div", "class='mainFinishedGames'", regulationTable));
-		request.setAttribute("playoffResults", new Tag("div", "class='mainFinishedGames'", playoffTable));
+		Tag resultsTable = buildResultsTable(games);
+		request.setAttribute("results", new Tag("div", "class='mainFinishedGames'", resultsTable));
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,7 +48,7 @@ public class MainPageResultsServlet extends HttpServlet {
 		try {
 			pst = conn.prepareStatement(db.readSql("mainPageResults"), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			pst.setInt(1, Integer.parseInt(season.replace("/", "")));
-			pst.setInt(2, Integer.parseInt(season.replace("/", "")));
+			//pst.setInt(2, Integer.parseInt(season.replace("/", "")));
 			rs = pst.executeQuery();
 			
 			GameData game = new GameData();
@@ -74,30 +72,14 @@ public class MainPageResultsServlet extends HttpServlet {
 		return games;
 	}
 	
-	private Tag buildTableRegulation(ArrayList<GameData> games) {
+	private Tag buildResultsTable(ArrayList<GameData> games) {
 		Tag table = new Tag("table", "id='mainFinishedTableRegulation' class ='mainFinishedTable'");
 		int rowId = 0;
-		for(GameData game : filterGames(games, GameType.regulation)) {
+		for(GameData game : games) {
 			rowId++;
 			table.addTag(buildTableHeader(rowId, game));
 			table.addTag(buildDetailRow(rowId, game));
 		}
-		return table;
-	}
-	
-	private Tag buildTablePlayoff(ArrayList<GameData> games) {
-		Tag table = new Tag("table", "id='mainFinishedTablePlayoff' class='mainFinishedTable'");
-		int rowId = 0;
-		ArrayList<GameData> playoffGames = filterGames(games, GameType.playoff);
-		//if(playoffGames.size() > 0) {
-			for(GameData game : playoffGames) {
-				rowId++;
-				table.addTag(buildTableHeader(rowId, game));
-				table.addTag(buildDetailRow(rowId, game));
-			}
-		//} else {
-		//	table = null;
-		//}
 		return table;
 	}
 	
@@ -263,13 +245,13 @@ public class MainPageResultsServlet extends HttpServlet {
 		return penaltyIconDiv;
 	}
 	
-	private ArrayList<GameData> filterGames(ArrayList<GameData> games, GameType gameType) {
+	/*private ArrayList<GameData> filterGames(ArrayList<GameData> games, GameType gameType) {
 		ArrayList<GameData> filteredGames = new ArrayList<GameData>();
 		for(GameData game : games) {
 			if(game.getGameType() == gameType)
 				filteredGames.add(game);
 		}
 		return filteredGames;
-	}
+	}*/
 	
 }

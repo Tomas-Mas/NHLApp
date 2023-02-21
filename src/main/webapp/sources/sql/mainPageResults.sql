@@ -10,20 +10,9 @@ from (
             inner join Teams awayTeam on awayTeam.t_id = g.awayTeamId 
             inner join Teams homeTeam on homeTeam.t_id = g.homeTeamId
             inner join Venues v on v.v_id = g.venueId
-        where g.season = ? and gameType = 'R'
+        where g.season = ? and gameType = 'R' or gameType = 'P'
         order by g.gamedate desc
         fetch first 20 rows only)
-        UNION ALL
-        (select g.g_id, g.gameType, g.season, g.gameDate as sortableDate,
-                to_char(to_timestamp_tz(to_char(g.gameDate, 'yyyy-mm-dd hh24:mi:ss"Z"'), 'yyyy-mm-dd hh24:mi:ss TZH;TZM') at time zone 'Europe/Prague', 'dd.mm.yy hh24:mi') as gameDate, 
-                awayTeam.name as awayTeamName, g.awayScore, homeTeam.name as homeTeamName, g.homeScore, v.name as venueName, s.name as statusName
-        from Games g inner join GameStatus s on s.code = g.gameStatus 
-            inner join Teams awayTeam on awayTeam.t_id = g.awayTeamId 
-            inner join Teams homeTeam on homeTeam.t_id = g.homeTeamId
-            inner join Venues v on v.v_id = g.venueId
-        where g.season = ? and gameType = 'P'
-        order by g.gamedate desc
-        fetch first 10 rows only)
     ) mygames
     left join GameEvents ge on ge.gameId = mygames.g_id
     left join Events e on e.e_id = ge.eventId

@@ -1,11 +1,13 @@
-select myTeams.team, t.name, t.t_id as id, divisionConference.conference as conference, divisionConference.division as division, 
-        gamesPlayed, goalsFor, goalsAgainst, points, regulationWins, regulationLoses, overtimeWins, overtimeLoses
+select myTeams.team, t.name, t.abbreviation, t.t_id as id, divisionConference.conference as conference, divisionConference.division as division, 
+        gamesPlayed, goalsFor, goalsAgainst, points, regulationWins, regulationLoses, overtimeWins, overtimeLoses, shootoutWins, shootoutLoses
 from (
     select season, gameType, team, teamId, count(g_id) as gamesPlayed, sum(goalsFor) as goalsFor, sum(goalsAgainst) as goalsAgainst, sum(points) as points,
             sum(case when periods <= 3 and goalsFor > goalsAgainst then 1 else 0 end) as regulationWins,
             sum(case when periods <= 3 and goalsFor < goalsAgainst then 1 else 0 end) as regulationLoses,
-            sum(case when periods > 3 and goalsFor > goalsAgainst then 1 else 0 end) as overtimeWins,
-            sum(case when periods > 3 and goalsFor < goalsAgainst then 1 else 0 end) as overtimeLoses
+            sum(case when periods = 4 and goalsFor > goalsAgainst then 1 else 0 end) as overtimeWins,
+            sum(case when periods = 4 and goalsFor < goalsAgainst then 1 else 0 end) as overtimeLoses,
+            sum(case when periods = 5 and goalsFor > goalsAgainst then 1 else 0 end) as shootoutWins,
+            sum(case when periods = 5 and goalsFor < goalsAgainst then 1 else 0 end) as shootoutLoses
     from (
         select *
         from (

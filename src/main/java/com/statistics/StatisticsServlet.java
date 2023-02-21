@@ -30,6 +30,9 @@ public class StatisticsServlet extends HttpServlet {
 		request.setAttribute("statsVersion", "statPage");
 		mainContent.addTag(getRegulationStatistics(request, response));
 		
+		//TODO playoff spider
+		mainContent.addTag(new Tag("div", "id='playoffContainer'"));
+		
 		
 		body.addTag(mainContent);
 		html.addTag(body);
@@ -48,6 +51,7 @@ public class StatisticsServlet extends HttpServlet {
 		header.addTag(new Tag("link", "rel='stylesheet' href='global/root.css'"));
 		header.addTag(new Tag("link", "rel='stylesheet' href='global/main-menu/mainMenu.css'"));
 		header.addTag(new Tag("link", "rel='stylesheet' href='global/title/title.css'"));
+		header.addTag(new Tag("link", "rel='stylesheet' href='statistics-page/statistics.css'"));
 		//scripts
 		header.addTag(new Tag("script", "src='global/main-menu/menu.js'"));
 		header.addTag(new Tag("script", "src='statistics-page/statistics.js'"));
