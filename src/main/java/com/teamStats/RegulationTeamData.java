@@ -3,17 +3,17 @@ package com.teamStats;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TeamData {
+public class RegulationTeamData {
 
 	private String name;
 	private String abbreviatedName;
 	private int id;
 	private String conference;
 	private String division;
-	private TeamStatistics home;
-	private TeamStatistics away;
+	private RegulationTeamStatistics home;
+	private RegulationTeamStatistics away;
 	
-	public TeamData() {
+	public RegulationTeamData() {
 	}
 	
 	public void loadTeamData(ResultSet rs) throws SQLException {
@@ -27,9 +27,9 @@ public class TeamData {
 	
 	public void loadStats(ResultSet rs) throws SQLException {
 		if(rs.getString("team").equals("home")) {
-			home = new TeamStatistics(rs);
+			home = new RegulationTeamStatistics(rs);
 		} else if(rs.getString("team").equals("away")) {
-			away = new TeamStatistics(rs);
+			away = new RegulationTeamStatistics(rs);
 		}
 	}
 	
@@ -53,22 +53,27 @@ public class TeamData {
 		return division;
 	}
 	
-	public TeamStatistics getHomeStats() {
+	public RegulationTeamStatistics getHomeStats() {
 		return home;
 	}
 	
-	public TeamStatistics getAwayStats() {
+	public RegulationTeamStatistics getAwayStats() {
 		return away;
 	}
 	
-	public TeamStatistics getOverallStats() {
+	public RegulationTeamStatistics getOverallStats() {
 		if(home != null && away != null)
-			return new TeamStatistics(home, away);
+			return new RegulationTeamStatistics(home, away);
 		else if(home != null && away == null)
 			return home;
 		else if(home == null && away != null)
 			return away;
 		else
-			return new TeamStatistics();
+			return new RegulationTeamStatistics();
+	}
+	
+	//little cheat because of ever changing tiebreaker rules/seeding - newer seasons should be fine without this
+	public void substractPoint() {
+		this.home.substractPoint();
 	}
 }

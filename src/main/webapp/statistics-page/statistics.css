@@ -18,6 +18,11 @@
 	width: 95%;
 }
 
+.teamPic {
+	width: 15px;
+	height: 15px;
+}
+
 .conferenceTable .teamName{
 	width: 180px;
 }
@@ -37,8 +42,12 @@
 #mainContent table {
 	color: var(--contentMainTableTextColor);
 	border-collapse: collapse;
-	background-color: var(--contentMainTableBackground);
+	/*background-color: var(--contentMainTableBackground);*/
 	font-size: 14px;
+}
+
+#regulationContainer table {
+	background-color: var(--contentMainTableBackground);
 }
 
 #mainContent .regulationContainerTable {
@@ -78,4 +87,9 @@
 
 .numeric {
 	text-align: center;
+}
+
+img {
+	width: 100%;
+	height: 100%;
 }

@@ -9,8 +9,10 @@ public class GameData {
 	private GameType gameType;
 	private int season;
 	private String gameDate;
+	private int homeId;
 	private String homeName;
 	private int homeScore;
+	private int awayId;
 	private String awayName;
 	private int awayScore;
 	private String venueName;
@@ -22,27 +24,30 @@ public class GameData {
 	public GameData() {
 	}
 	
-	public GameData(int gameId, String gameType, int season, String gameDate, String homeName, int homeScore, 
+	/*public GameData(int gameId, String gameType, int season, String gameDate, String homeName, int homeScore, 
 			String awayName, int awayScore, String venueName, String statusName) {
 		this.gameId = gameId;
 		this.gameType = setGameType(gameType);
 		this.season = season;
 		this.gameDate = gameDate;
+		this.homeId = homeId;
 		this.homeName = homeName;
 		this.homeScore = homeScore;
 		this.awayName = awayName;
 		this.awayScore = awayScore;
 		this.venueName = venueName;
 		this.statusName = statusName;
-	}
+	}*/
 	
 	public void setDataFromResultSet(ResultSet rs) throws SQLException {
 		this.gameId = rs.getInt("g_id");
 		this.gameType = setGameType(rs.getString("gameType"));
 		this.season = rs.getInt("season");
 		this.gameDate = rs.getString("gameDate");
+		this.homeId = rs.getInt("homeTeamId");
 		this.homeName = rs.getString("homeTeamName");
 		this.homeScore = rs.getInt("homeScore");
+		this.awayId = rs.getInt("awayTeamId");
 		this.awayName = rs.getString("awayTeamName");
 		this.awayScore = rs.getInt("awayScore");
 		this.venueName = rs.getString("venueName");
@@ -129,11 +134,17 @@ public class GameData {
 	public String getGameDate() {
 		return this.gameDate;
 	}
+	public int getHomeId() {
+		return homeId;
+	}
 	public String getHomeName() {
 		return this.homeName;
 	}
 	public int getHomeScore() {
 		return this.homeScore;
+	}
+	public int getAwayId() {
+		return awayId;
 	}
 	public String getAwayName() {
 		return this.awayName;

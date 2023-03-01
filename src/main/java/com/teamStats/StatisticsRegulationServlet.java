@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.database.Database;
+import com.global.TeamIcon;
 import com.htmlOutput.Tag;
 
 @WebServlet("/StatisticsRegulationServlet")
@@ -21,7 +22,6 @@ public class StatisticsRegulationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private Database db;
-	//private String contextPath;
 	
     public StatisticsRegulationServlet() {
         super();
@@ -29,7 +29,6 @@ public class StatisticsRegulationServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//contextPath = request.getContextPath();
 		String season = (String)request.getAttribute("season");
 		StatisticsRegulationData stats = loadStats(season);
 		String statsVersion = (String)request.getAttribute("statsVersion");
@@ -40,9 +39,9 @@ public class StatisticsRegulationServlet extends HttpServlet {
 		} else if(statsVersion.equals("statPage")) {
 			Tag statisticsDiv = buildRegulationStatisticsPage(stats);
 			request.setAttribute("regulationStats", statisticsDiv);
+		} else if(statsVersion.equals("playoffPage")) {
+			request.setAttribute("regulationStats", stats);
 		}
-		
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -90,23 +89,17 @@ public class StatisticsRegulationServlet extends HttpServlet {
 	}
 	
 	private void buildMainPageConferences(Tag conferenceTable, String conference, StatisticsRegulationData stats) {
-		/*Tag conferenceDiv = new Tag("div", "class='conferenceRegulationStats'");
-		Tag conferenceTable = new Tag("table");*/
 		conferenceTable.addTag(buildMainPageStatsHeader(conference));
 		
 		int rank = 1;
-		for(TeamData team : stats.getTeamsByConference(conference)) {
+		for(RegulationTeamData team : stats.getTeamsByConference(conference)) {
 			conferenceTable.addTag(buildMainPageStatsRow(rank, team, team.getOverallStats()));
 			rank++;
 		}
-		
-		/*conferenceDiv.addTag(conferenceTable);
-		return conferenceDiv;*/
 	}
 	
 	private Tag buildMainPageStatsHeader(String conference) {
 		Tag header = new Tag("tr", "class='header'", new Tag[] {
-				//new Tag("th", "title='", "#"),
 				new Tag("th", "class='conferenceName' colspan='3'", conference),
 				new Tag("th", "title='Games Played'", "GP"),
 				new Tag("th", "title='Regulation wins'", "W"),
@@ -114,35 +107,20 @@ public class StatisticsRegulationServlet extends HttpServlet {
 				new Tag("th", "title='OverTime/Shootout loses'", "OL"),
 				new Tag("th", "title='Regulation loses'", "L"),
 				new Tag("th", "title='Points'", "P"),
-				
-				/*new Tag("th", "class='conferenceName' colspan='3'", conference),
-				new Tag("th", "title='Games Played'", "GP"),
-				new Tag("th", "title='Regulation wins'", "W"),
-				//new Tag("th", "title='Overtime/Shootout wins'", "OW"),
-				new Tag("th", "title='OverTime/Shootout loses'", "OL"),
-				new Tag("th", "title='Regulation loses'", "L"),
-				//new Tag("th", "title='Goals for'", "GF"),
-				//new Tag("th", "title='Goals against'", "GA"),
-				//new Tag("th", "title='Goals difference'", "+/-"),
-				new Tag("th", "title='Points'", "P"),*/
 		});
 		return header;
 	}
 	
-	private Tag buildMainPageStatsRow(int rank, TeamData team, TeamStatistics stats) {
+	private Tag buildMainPageStatsRow(int rank, RegulationTeamData team, RegulationTeamStatistics stats) {
 		Tag tr = new Tag("tr", new Tag[] {
 				new Tag("td", "class='numeric'", String.valueOf(rank)),
-				new Tag("td", "", new Tag("div", "class='teamPic'")),
-				//new Tag("td", "id='" + team.getId() + "'", team.getName()),
+				new Tag("td", TeamIcon.getIconDiv(team.getId(), team.getName())),
 				new Tag("td", "id='" + team.getId() + "' class='teamName'", team.getName()),
 				new Tag("td", "class='numeric'", String.valueOf(stats.getGamesPlayed())),
 				new Tag("td", "class='numeric'", String.valueOf(stats.getRegulationWins())),
 				new Tag("td", "class='numeric'", String.valueOf(stats.getOvertimeShootoutWins())),
 				new Tag("td", "class='numeric'", String.valueOf(stats.getOvertimeShootoutLoses())),
 				new Tag("td", "class='numeric'", String.valueOf(stats.getRegulationLoses())),
-				//new Tag("td", "class='numeric'", String.valueOf(stats.getGoalsFor())),
-				//new Tag("td", "class='numeric'", String.valueOf(stats.getGoalsAgainst())),
-				//new Tag("td", "class='numeric'", String.valueOf(stats.getGoalDifference())),
 				new Tag("td", "class='numeric'", String.valueOf(stats.getPoints()))
 		});
 		
@@ -184,13 +162,10 @@ public class StatisticsRegulationServlet extends HttpServlet {
 	
 	private Tag buildStatPageConferenceDataTable(String conference, StatisticsRegulationData stats) {
 		Tag table = new Tag("table", "class='conferenceTable'");
-		//Tag trTitle = new Tag("tr", new Tag("td", "", conference));
-		
-		//table.addTag(trTitle);
 		table.addTag(buildFullStatHeader(conference));
 		
 		int rank = 1;
-		for(TeamData team : stats.getTeamsByConference(conference)) {
+		for(RegulationTeamData team : stats.getTeamsByConference(conference)) {
 			table.addTag(buildFullStatData(rank, team));
 			rank++;
 		}
@@ -202,7 +177,7 @@ public class StatisticsRegulationServlet extends HttpServlet {
 		table.addTag(buildFullStatHeader(division));
 		
 		int rank = 1;
-		for(TeamData team : stats.getTeamsByDivisions(division)) {
+		for(RegulationTeamData team : stats.getTeamsByDivisions(division)) {
 			table.addTag(buildFullStatAbreviatedNameData(rank, team));
 			rank++;
 		}
@@ -224,10 +199,10 @@ public class StatisticsRegulationServlet extends HttpServlet {
 		});
 	}
 	
-	private Tag buildFullStatData(int rank, TeamData team) {
+	private Tag buildFullStatData(int rank, RegulationTeamData team) {
 		return new Tag("tr", new Tag[] {
 				new Tag("td", "class='numeric'", String.valueOf(rank)),
-				new Tag("td", "", new Tag("div", "class='teamPic'")),
+				new Tag("td", "", TeamIcon.getIconDiv(team.getId(), team.getName())),
 				new Tag("td", "id='" + team.getId() + "' class='teamName'", team.getName()),
 				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getGamesPlayed())),
 				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getRegulationWins())),
@@ -241,10 +216,10 @@ public class StatisticsRegulationServlet extends HttpServlet {
 		});
 	}
 	
-	private Tag buildFullStatAbreviatedNameData(int rank, TeamData team) {
+	private Tag buildFullStatAbreviatedNameData(int rank, RegulationTeamData team) {
 		return new Tag("tr", new Tag[] {
 				new Tag("td", "class='numeric rank'", String.valueOf(rank)),
-				new Tag("td", "", new Tag("div", "class='teamPic'")),
+				new Tag("td", "", TeamIcon.getIconDiv(team.getId(), team.getName())),
 				new Tag("td", "id='" + team.getId() + "' class='teamName' title='"+ team.getName() +"'", team.getAbbreviatedName()),
 				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getGamesPlayed())),
 				new Tag("td", "class='numeric'", String.valueOf(team.getOverallStats().getRegulationWins())),

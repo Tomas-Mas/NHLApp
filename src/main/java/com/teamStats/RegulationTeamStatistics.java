@@ -3,7 +3,7 @@ package com.teamStats;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TeamStatistics {
+public class RegulationTeamStatistics {
 
 	private int gamesPlayed;
 	private int goalsFor;
@@ -16,7 +16,7 @@ public class TeamStatistics {
 	private int shootoutWins;
 	private int shootoutLoses;
 	
-	public TeamStatistics() {
+	public RegulationTeamStatistics() {
 		this.gamesPlayed = 0;
 		this.goalsFor = 0;
 		this.goalsAgainst = 0;
@@ -29,7 +29,7 @@ public class TeamStatistics {
 		this.shootoutLoses = 0;
 	}
 	
-	public TeamStatistics(ResultSet rs) throws SQLException {
+	public RegulationTeamStatistics(ResultSet rs) throws SQLException {
 		this.gamesPlayed = rs.getInt("gamesPlayed");
 		this.goalsFor = rs.getInt("goalsFor");
 		this.goalsAgainst = rs.getInt("goalsAgainst");
@@ -42,7 +42,7 @@ public class TeamStatistics {
 		this.shootoutLoses = rs.getInt("shootoutLoses");
 	}
 	
-	public TeamStatistics(TeamStatistics home, TeamStatistics away) {
+	public RegulationTeamStatistics(RegulationTeamStatistics home, RegulationTeamStatistics away) {
 		this.gamesPlayed = home.getGamesPlayed() + away.getGamesPlayed();
 		this.goalsFor = home.getGoalsFor() + away.getGoalsFor();
 		this.goalsAgainst = home.getGoalsAgainst() + away.getGoalsAgainst();
@@ -113,6 +113,10 @@ public class TeamStatistics {
 	
 	public int getTotalWins() {
 		return regulationWins + overtimeWins + shootoutWins;
+	}
+	
+	public void substractPoint() {
+		this.points = points - 1;
 	}
 	
 	/*public int get2PointWins() {

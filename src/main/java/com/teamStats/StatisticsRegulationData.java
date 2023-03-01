@@ -8,25 +8,25 @@ import java.util.HashMap;
 
 public class StatisticsRegulationData {
 	
-	private ArrayList<TeamData> teams;
+	private ArrayList<RegulationTeamData> teams;
 	private HashMap<String, ArrayList<String>> confDivs;
 
 	public StatisticsRegulationData(ResultSet rs) {
-		teams = new ArrayList<TeamData>();
+		teams = new ArrayList<RegulationTeamData>();
 		confDivs = new HashMap<String, ArrayList<String>>();
 		loadDataFromResultSet(rs);
 	}
 	
 	private void loadDataFromResultSet(ResultSet rs) {
 		try {
-			TeamData team = new TeamData();
+			RegulationTeamData team = new RegulationTeamData();
 			while(rs.next()) {
 				if(team.getName() == null) {
 					team.loadTeamData(rs);
 				} else if (team.getName().equals(rs.getString("name"))) {
 					team.loadStats(rs);
 					teams.add(team);
-					team = new TeamData();
+					team = new RegulationTeamData();
 				}
 				mapConferenceDivisions(rs);
 			}
@@ -35,13 +35,13 @@ public class StatisticsRegulationData {
 		}
 	}
 	
-	public ArrayList<TeamData> getTeams() {
+	public ArrayList<RegulationTeamData> getTeams() {
 		return this.teams;
 	}
 	
-	public ArrayList<TeamData> getTeamsByConference(String conference) {
-		ArrayList<TeamData> teamsByConference = new ArrayList<TeamData>();
-		for(TeamData team : teams) {
+	public ArrayList<RegulationTeamData> getTeamsByConference(String conference) {
+		ArrayList<RegulationTeamData> teamsByConference = new ArrayList<RegulationTeamData>();
+		for(RegulationTeamData team : teams) {
 			if(team.getConference().equals(conference)) {
 				teamsByConference.add(team);
 			}
@@ -49,9 +49,48 @@ public class StatisticsRegulationData {
 		return sortByPoints(teamsByConference);
 	}
 	
-	public ArrayList<TeamData> getTeamsByDivisions(String division) {
-		ArrayList<TeamData> teamsByDivision = new ArrayList<TeamData>();
-		for(TeamData team : teams) {
+	public ArrayList<RegulationTeamData> getTop8ByConference(String conference) {
+		ArrayList<RegulationTeamData> top8 = new ArrayList<RegulationTeamData>();
+		int ind = 0;
+		for(RegulationTeamData team : getTeamsByConference(conference)) {
+			if(ind == 8) {
+				break;
+			}
+			top8.add(team);
+			ind++;
+		}
+		return sortByPoints(top8);
+	}
+	
+	public ArrayList<RegulationTeamData> getDivisionWinners(String conference) {
+		ArrayList<RegulationTeamData> divWinners = new ArrayList<RegulationTeamData>();
+		divWinners.add(getTeamsByDivisions(confDivs.get(conference).get(0)).get(0));
+		divWinners.add(getTeamsByDivisions(confDivs.get(conference).get(1)).get(0));
+		return sortByPoints(divWinners);
+	}
+	
+	public ArrayList<RegulationTeamData> getWildCards(String conference) {
+		ArrayList<RegulationTeamData> wildCards = new ArrayList<RegulationTeamData>();
+		ArrayList<RegulationTeamData> divisionTeams = getTeamsByDivisions(confDivs.get(conference).get(0));
+		wildCards.add(divisionTeams.get(3));
+		wildCards.add(divisionTeams.get(4));
+		divisionTeams = getTeamsByDivisions(confDivs.get(conference).get(1));
+		wildCards.add(divisionTeams.get(3));
+		wildCards.add(divisionTeams.get(4));
+		return sortByPoints(wildCards);
+	}
+	
+	public ArrayList<RegulationTeamData> getDivisionRunnerUps(String division) {
+		ArrayList<RegulationTeamData> runnerUps = new ArrayList<RegulationTeamData>();
+		ArrayList<RegulationTeamData> divisionTeams = getTeamsByDivisions(division);
+		runnerUps.add(divisionTeams.get(1));
+		runnerUps.add(divisionTeams.get(2));
+		return runnerUps;
+	}
+	
+	public ArrayList<RegulationTeamData> getTeamsByDivisions(String division) {
+		ArrayList<RegulationTeamData> teamsByDivision = new ArrayList<RegulationTeamData>();
+		for(RegulationTeamData team : teams) {
 			if(team.getDivision().equals(division)) {
 				teamsByDivision.add(team);
 			}
@@ -76,16 +115,16 @@ public class StatisticsRegulationData {
 		}
 	}
 	
-	private ArrayList<TeamData> sortByPoints(ArrayList<TeamData> teams) {
+	private ArrayList<RegulationTeamData> sortByPoints(ArrayList<RegulationTeamData> teams) {
 		/*teams.sort((o2, o1)
 				->Integer.valueOf(o1.getOverallStats().getPoints()).compareTo(o2.getOverallStats().getPoints()));
 		return teams;*/
 		
 		//tiebreakers
-		teams.sort(new Comparator<TeamData>() {
+		teams.sort(new Comparator<RegulationTeamData>() {
 			
 			@Override
-			public int compare(TeamData o2, TeamData o1) {
+			public int compare(RegulationTeamData o2, RegulationTeamData o1) {
 				int res = Integer.valueOf(o1.getOverallStats().getPoints()).compareTo(o2.getOverallStats().getPoints());
 				if(res != 0) {
 					return res;

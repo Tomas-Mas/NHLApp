@@ -31,7 +31,9 @@ public class StatisticsServlet extends HttpServlet {
 		mainContent.addTag(getRegulationStatistics(request, response));
 		
 		//TODO playoff spider
-		mainContent.addTag(new Tag("div", "id='playoffContainer'"));
+		//mainContent.addTag(new Tag("div", "id='playoffContainer'"));
+		request.setAttribute("statsVersion", "playoffPage");
+		mainContent.addTag(getPlayoffSpider(request, response));
 		
 		
 		body.addTag(mainContent);
@@ -52,6 +54,7 @@ public class StatisticsServlet extends HttpServlet {
 		header.addTag(new Tag("link", "rel='stylesheet' href='global/main-menu/mainMenu.css'"));
 		header.addTag(new Tag("link", "rel='stylesheet' href='global/title/title.css'"));
 		header.addTag(new Tag("link", "rel='stylesheet' href='statistics-page/statistics.css'"));
+		header.addTag(new Tag("link", "rel='stylesheet' href='statistics-page/playoff-spider.css'"));
 		//scripts
 		header.addTag(new Tag("script", "src='global/main-menu/menu.js'"));
 		header.addTag(new Tag("script", "src='statistics-page/statistics.js'"));
@@ -71,6 +74,11 @@ public class StatisticsServlet extends HttpServlet {
 	private Tag getRegulationStatistics(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/StatisticsRegulationServlet").include(request, response);
 		return (Tag)request.getAttribute("regulationStats");
+	}
+	
+	private Tag getPlayoffSpider(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/PlayoffServlet").include(request, response);
+		return (Tag)request.getAttribute("playoffSpider");
 	}
 
 }

@@ -4,8 +4,8 @@ from (
         ge.periodTime, e.strength, e.emptyNet, e.secondaryType, e.penaltySeverity, e.penaltyMinutes
     from (
         (select g.g_id, g.gameType, g.season, g.gameDate as sortableDate,
-                to_char(to_timestamp_tz(to_char(g.gameDate, 'yyyy-mm-dd hh24:mi:ss"Z"'), 'yyyy-mm-dd hh24:mi:ss TZH;TZM') at time zone 'Europe/Prague', 'dd.mm.yy hh24:mi') as gameDate, 
-                awayTeam.name as awayTeamName, g.awayScore, homeTeam.name as homeTeamName, g.homeScore, v.name as venueName, s.name as statusName
+                to_char(to_timestamp_tz(to_char(g.gameDate, 'yyyy-mm-dd hh24:mi:ss"Z"'), 'yyyy-mm-dd hh24:mi:ss TZH;TZM') at time zone 'Europe/Prague', 'dd.mm.yy hh24:mi') as gameDate,
+                awayTeam.t_id as awayTeamId, awayTeam.name as awayTeamName, g.awayScore, homeTeam.t_id as homeTeamId, homeTeam.name as homeTeamName, g.homeScore, v.name as venueName, s.name as statusName
         from Games g inner join GameStatus s on s.code = g.gameStatus 
             inner join Teams awayTeam on awayTeam.t_id = g.awayTeamId 
             inner join Teams homeTeam on homeTeam.t_id = g.homeTeamId

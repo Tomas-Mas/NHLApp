@@ -1,0 +1,169 @@
+.playoff-bracket {
+	width: 105px;
+	position: relative;
+}
+
+.bracket-winner {
+	font-weight: bold;
+}
+
+.div-finals-top {
+	grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    margin-top: auto;
+  	margin-bottom: auto;
+}
+.div-finals-bot {
+	grid-row-start: 3;
+    grid-row-end: 5;
+    grid-column-start: 2;
+    grid-column-end:3;
+    margin-top: auto;
+  	margin-bottom: auto;
+}
+
+.conf-finals {
+	grid-row-start: 1;
+    grid-row-end: 5;
+    grid-column-start: 3;
+    grid-column-end:4;
+    margin-top: auto;
+  	margin-bottom: auto;
+}
+
+.conference-bracket-container {
+	display: grid;
+	grid-row-gap: 30px;
+	grid-column-gap: 15px;
+	grid-template-columns: auto auto auto;
+	margin-top: 29px;
+	margin-bottom: 100px;
+	margin-right: 50px;
+}
+
+/*.playoff-bracket {
+	padding: 5px;
+}*/
+
+.match-table {
+	width: 100%;
+}
+
+.match-table td {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.match-table .teamPic {
+	margin-left: 10px;
+}
+
+.match-table .teamPic-option {
+	width: 15px;
+	height: 15px;
+	margin-left: 2px;
+	background-color: lightblue;
+}
+
+.match-table .team-pic {
+	width: 15px;
+	margin-left: 10px;
+}
+
+.match-table .team-pic-undecided {
+	width: 25px;
+}
+
+.match-table .team-pic-undecided div {
+	margin-left: 10px;
+	width: 15px;
+	height: 15px;
+}
+
+.match-table .team-pic-undecided img {
+	width: 100%;
+	height: 100%;
+}
+
+.match-table .team-name {
+	width: 30px;
+}
+
+.match-table .team-seeding {
+	width: 10px;
+	font-size: 8px;
+}
+
+.match-table .team-points {
+	text-align: right;
+	padding-right: 10px;
+}
+
+#playoffContainer {
+	position: relative;
+}
+
+#playoffContainer .conference-bracket-container {
+	position: relative;
+}
+
+#playoffContainer .playoff-finals-container {
+	position: absolute;
+	margin-left: 110px;
+	margin-top: -130px;
+}
+
+.playoff-finals-container {
+	display: flex;
+}
+
+.playoff-finals-container .stanley-cup-logo {
+	width: 140px;
+	height: 160px;
+	margin-right: 10px;
+}
+
+.playoff-finals-container .stanley-cup-match {
+	width: 105px;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.playoff-bracket .match-results {
+	position: absolute;
+	z-index: 1;
+}
+
+.playoff-bracket .results-table {
+	width: 105px;
+}
+
+.playoff-bracket .match-results td {
+	font-size: 11px;
+	padding-bottom: 5px;
+}
+
+/*.playoff-bracket:hover .match-table {
+	cursor: pointer;
+	background-color:white;
+}*/
+
+.playoff-bracket .match-table {
+	background-color: var(--contentMainTableBackground);
+}
+
+.playoff-bracket .match-table:hover {
+	cursor: pointer;
+	background-color: var(--contentMainTableRowHover);
+}
+
+.expanded .match-header table, .playoff-bracket .match-results {
+	background-color: var(--contentMainTableRowHover);
+}
+
+.playoff-bracket .results-table tr:hover{
+	cursor: pointer;
+	background-color: var(--menuHoverBackground);
+}

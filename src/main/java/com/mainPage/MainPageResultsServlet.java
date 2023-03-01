@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.database.Database;
+import com.global.TeamIcon;
 import com.htmlOutput.Tag;
 
 @WebServlet("/MainPageResultsServlet")
@@ -108,7 +109,8 @@ public class MainPageResultsServlet extends HttpServlet {
 		Tag header = new Tag("table", "class='resultsHeader'");
 		Tag headerHomeRow = new Tag("tr", new Tag[] {
 				new Tag("td", "rowspan='2' class='resultsHeaderDate'", game.getGameDate()),
-				new Tag("td", "class='resultsPics'", new Tag("div", "class='teamPic'")),
+				//new Tag("td", "class='resultsPics'", new Tag("div", "class='teamPic'")),
+				new Tag("td", "class='resultsPics'", TeamIcon.getIconDiv(game.getHomeId(), game.getHomeName())),
 				new Tag("td", "class='resultsTeamName'", game.getHomeName()),
 				new Tag("td", "class='resultsScore'", String.valueOf(game.getHomeScore())),
 				new Tag("td", "rowspan='2' class='resultsDetail'", game.getResultDetail())
@@ -118,7 +120,8 @@ public class MainPageResultsServlet extends HttpServlet {
 		//headerHomeRow.addTag(new Tag("td", "", "a"));
 		
 		Tag headerAwayRow = new Tag("tr", new Tag[] {
-				new Tag("td", "class='resultsPics'", new Tag("div", "class='teamPic'")),
+				//new Tag("td", "class='resultsPics'", new Tag("div", "class='teamPic'")),
+				new Tag("td", "class='resultsPics'", TeamIcon.getIconDiv(game.getAwayId(), game.getAwayName())),
 				new Tag("td", "class='resultsTeamName'", game.getAwayName()),
 				new Tag("td", "class='resultsScore'", String.valueOf(game.getAwayScore()))
 		});
