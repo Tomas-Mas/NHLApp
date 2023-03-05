@@ -93,3 +93,7 @@ img {
 	width: 100%;
 	height: 100%;
 }
+
+.conferenceTable .ghost-highlight, .divisionTable .ghost-highlight, #playoffContainer .ghost-highlight {
+	background-color: var(--contentMainTableRowHover);
+}

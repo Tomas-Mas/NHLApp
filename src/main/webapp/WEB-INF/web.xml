@@ -10,7 +10,7 @@
 	
 	<servlet>
 		<servlet-name>MainPage</servlet-name>
-		<servlet-class>com.mainPage.MainPageServlet</servlet-class>
+		<servlet-class>com.nhl.web.MainPageServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>MainPage</servlet-name>
@@ -19,7 +19,7 @@
 	
 	<servlet>
 		<servlet-name>Statistics</servlet-name>
-		<servlet-class>com.statistics.StatisticsServlet</servlet-class>
+		<servlet-class>com.nhl.web.StatisticsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Statistics</servlet-name>

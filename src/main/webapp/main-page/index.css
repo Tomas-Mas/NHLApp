@@ -2,10 +2,15 @@
 	display: flex;
 }
 
-.mainFinishedGames{ 
+#mainFinishedTableRegulation {
 	flex: 2;
 	margin: 10px;
 }
+
+/*.mainFinishedGames{ 
+	flex: 2;
+	margin: 10px;
+}*/
 
 #regulationStats {
 	flex: 1;
@@ -219,9 +224,14 @@
 	margin-right: 0px;
 }
 
+.mainFinishedTable .periodEventIcon {
+	width: 20px;
+	height: 20px;
+}
+
 .mainFinishedTable .periodEventTime, .periodEventIcon, .periodEventMainPlayer, .periodEventStrength, .periodEventPenaltyType {
 	display: inline-block;
-	height: 100%;
+	/*height: 100%;*/
 	vertical-align: middle;
 }
 
@@ -254,6 +264,7 @@ img {
 }
 
 .matchData .gameDetailPlayerName {
+	font-size: 14px;
 	cursor: pointer;
 }
 .matchData .gameDetailPlayerName:hover {
